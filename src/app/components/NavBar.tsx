@@ -5,13 +5,13 @@ import Image from "next/image";
 import { Squash as Hamburger } from "hamburger-react";
 import { WebService } from "@/app/dto/webservice";
 
-type NavbarProps = {
-    allWebServices: WebService[];
+type NavBarProps = {
+    webServices: WebService[];
     current: WebService | null;
     onSelect: (service: WebService) => void;
 };
 
-export default function Navbar({ allWebServices, current, onSelect }: NavbarProps) {
+export default function NavBar({ webServices, current, onSelect }: NavBarProps) {
     const [bOpen, setOpen] = useState(false);
 
     function isSelected(a: WebService | null, b: WebService) {
@@ -27,7 +27,7 @@ export default function Navbar({ allWebServices, current, onSelect }: NavbarProp
                 <Hamburger toggled={bOpen} size={20} toggle={setOpen} />
             </div>
 
-            {allWebServices.map((service) => (
+            {webServices.map((service) => (
                 <button
                     key={service.url}
                     aria-label={`Switch to ${service.name}`}
