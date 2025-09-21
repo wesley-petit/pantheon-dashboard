@@ -35,7 +35,7 @@ export default function NavBar(props: NavBarProps) {
 
             {props.webServices.map((service) => (
                 <NavButton
-                    key={`${service.name} nav`}
+                    key={`service ${service.id}`}
                     label={service.name}
                     ariaLabel={`Switch to ${service.name}`}
                     bFullWidth={bFullWidth}

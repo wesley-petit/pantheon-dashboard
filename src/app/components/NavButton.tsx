@@ -13,7 +13,6 @@ type NavButtonProps = {
 export default function NavButton(props: NavButtonProps) {
     return (
         <button
-            key={props.label}
             title={props.label}
             aria-label={props.ariaLabel}
             onClick={props.onClick}

@@ -101,7 +101,7 @@ export default function FilterableIconList(props: FilterableIconListProps) {
                         className="cursor-pointer"
                     >
                         <Image
-                            key={item.filename}
+                            key={`${item.filename} image`}
                             src={getFullUrl(item)}
                             alt={item.displayName}
                             width={48}
