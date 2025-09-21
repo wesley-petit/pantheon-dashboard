@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Toaster } from 'react-hot-toast';
 import Image from "next/image";
 import { WebService, WebServiceFormData } from "@/app/dto/webservice";
 import FilterableIconList, { ImageFormat } from "./FilterableIconList";
 import { uploadMedia } from "@/app/lib/api/medias";
+import { withToast } from "@/app/lib/withToast";
 import "@/app/styles/file-upload.css";
 
 type RawFormData = {
@@ -35,10 +37,7 @@ export default function WebServiceForm(props: WebServiceFormProps) {
     });
 
     const onSubmit = async (data: RawFormData) => {
-        const thumbnailPath = await getThumbnailPath();
-        if (!thumbnailPath) {
-            return;
-        }
+        const thumbnailPath = await withToast(() => getThumbnailPath(), "Upload successfully!");
         const formatted: WebServiceFormData = {
             id: data.id,
             name: data.name.trim(),
@@ -73,9 +72,12 @@ export default function WebServiceForm(props: WebServiceFormProps) {
         );
     }
 
-    async function getThumbnailPath(): Promise<string | null> {
-        if (!file)
-            return iconUrl ?? props.defaultWebService?.thumbnailPath ?? null;
+    async function getThumbnailPath(): Promise<string> {
+        if (!file) {
+            const result = iconUrl ?? props.defaultWebService?.thumbnailPath ?? null;
+            if (!result) throw new Error("Undefined thumbnail");
+            return result;
+        }
 
         const formData = new FormData();
         formData.append("file", file);
@@ -151,6 +153,7 @@ export default function WebServiceForm(props: WebServiceFormProps) {
 
             <input type="hidden" {...register("id")} />
             <button type="submit" className="cursor-pointer mt-4 px-4 py-2 bg-blue-500 text-white rounded">Save</button>
-        </form >
+            <Toaster />
+        </form>
     );
 }

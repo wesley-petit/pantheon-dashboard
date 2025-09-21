@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import AddIcon from '@mui/icons-material/Add';
+import { Toaster } from 'react-hot-toast';
 import WebServiceForm from "@/app/components/WebServiceForm";
 import WebServiceDataTable from "@/app/components/WebServiceDataTable";
 import NavBar from "@/app/components/NavBar";
 import SpringModal from '@/app/components/SpringModal';
 import { WebService, WebServiceFormData } from "@/app/dto/webservice";
 import { addWebService, updateWebService, deleteWebService } from "@/app/lib/api/webservices";
+import { withToast } from "@/app/lib/withToast";
 
 type WebServiceEditorProps = {
     webServices: WebService[];
@@ -47,8 +49,12 @@ export default function WebServiceEditor(props: WebServiceEditorProps) {
         setModalState(false);
     }
 
+    async function onSubmit(params: WebServiceFormData) {
+        await withToast(() => upsertWebService(params));
+    };
+
     async function onDeleteWebService(service: WebService) {
-        await deleteWebService(service.id);
+        await withToast(() => deleteWebService(service.id), "Delete successfully!");
         setWebServices(prev => prev.filter(ws => ws.id !== service.id));
     }
 
@@ -67,10 +73,11 @@ export default function WebServiceEditor(props: WebServiceEditorProps) {
                     <button onClick={() => showForm(null)} className="cursor-pointer mx-2"><AddIcon /></button>
                 </span>
                 <SpringModal open={modalState} onClose={() => setModalState(false)} className="rounded-xl w-lg shadow-2xl p-8 bg-white/10">
-                    <WebServiceForm defaultWebService={editWebServices} onSubmit={upsertWebService} />
+                    <WebServiceForm defaultWebService={editWebServices} onSubmit={onSubmit} />
                 </SpringModal>
                 <WebServiceDataTable webServices={webServices} onEdit={showForm} OnDelete={onDeleteWebService} />
             </main>
+            <Toaster />
         </div>
     );
 }
