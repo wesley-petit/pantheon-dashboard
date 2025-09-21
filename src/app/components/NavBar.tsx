@@ -28,7 +28,7 @@ export default function NavBar(props: NavBarProps) {
     }
 
     return (
-        <nav className="flex flex-1 flex-col fixed h-full top-0 gap-2 p-2 z-10">
+        <nav className="flex flex-1 flex-col fixed overflow-y-scroll h-full top-0 gap-2 p-2 z-10" style={{ scrollbarWidth: "none" }}>
             <div>
                 <Hamburger toggled={bFullWidth} size={20} toggle={setFullWidth} />
             </div>
