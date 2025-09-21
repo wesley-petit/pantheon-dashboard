@@ -4,7 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Squash as Hamburger } from "hamburger-react";
+import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
+import NavButton from '@/app/components/NavButton';
 import { WebService } from "@/app/dto/webservice";
 
 type NavBarProps = {
@@ -14,7 +16,7 @@ type NavBarProps = {
     onSelect: (service: WebService) => void;
 };
 
-export default function NavBar({ webServices, current, onSelect, bEditorMode }: NavBarProps) {
+export default function NavBar(props: NavBarProps) {
     const [bFullWidth, setFullWidth] = useState(false);
     const router = useRouter();
 
@@ -22,7 +24,7 @@ export default function NavBar({ webServices, current, onSelect, bEditorMode }: 
         if (a == null)
             return false;
 
-        return a.url === b.url;
+        return a.id === b.id;
     }
 
     return (
@@ -31,37 +33,40 @@ export default function NavBar({ webServices, current, onSelect, bEditorMode }: 
                 <Hamburger toggled={bFullWidth} size={20} toggle={setFullWidth} />
             </div>
 
-            {webServices.map((service) => (
-                <button
-                    key={service.url}
-                    title={service.name}
-                    aria-label={`Switch to ${service.name}`}
+            {props.webServices.map((service) => (
+                <NavButton
+                    label={service.name}
+                    ariaLabel={`Switch to ${service.name}`}
+                    bFullWidth={bFullWidth}
+                    bSelected={isSelected(props.current, service)}
                     onClick={() => {
-                        onSelect(service);
+                        props.onSelect(service);
                         setFullWidth(false);
                     }}
-                    className={`flex mx-auto p-2 rounded cursor-pointer ${bFullWidth ? "min-w-60" : ""} ${isSelected(current, service) ? "selected" : ""}`}
                 >
                     <Image src={service.thumbnailPath} alt={`${service.name} Logo`} width={32} height={32} />
-                    {bFullWidth && (
-                        <p className="content-center px-4">{service.name}</p>
-                    )}
-                </button>
+                </NavButton>
             ))}
 
+            <NavButton
+                label="Home"
+                ariaLabel="Home Page"
+                bFullWidth={bFullWidth}
+                bSelected={(!props.bEditorMode && props.current == null)}
+                onClick={() => router.push('/')}
+            >
+                <HomeIcon width={32} height={32} />
+            </NavButton>
 
-            <button
-                key="editor"
-                title="editor"
-                aria-label={`WebServices Editor`}
+            <NavButton
+                label="Editor"
+                ariaLabel="Editor Page"
+                bFullWidth={bFullWidth}
+                bSelected={props.bEditorMode}
                 onClick={() => router.push('/editor')}
-                className={`flex mx-auto p-2 rounded cursor-pointer center ${bFullWidth ? "min-w-60" : ""} ${bEditorMode ? "selected" : ""}`}
             >
                 <SettingsIcon width={32} height={32} />
-                {bFullWidth && (
-                    <p className="content-center px-4">Editor</p>
-                )}
-            </button>
+            </NavButton>
         </nav>
     );
 }
