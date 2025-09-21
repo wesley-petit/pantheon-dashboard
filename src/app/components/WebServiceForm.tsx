@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import Image from "next/image";
 import { WebService, WebServiceFormData } from "@/app/dto/webservice";
 import FilterableIconList, { ImageFormat } from "./FilterableIconList";
@@ -37,7 +37,7 @@ export default function WebServiceForm(props: WebServiceFormProps) {
     });
 
     const onSubmit = async (data: RawFormData) => {
-        const thumbnailPath = await withToast(() => getThumbnailPath(), "Upload successfully!");
+        const thumbnailPath = await getThumbnailPath();
         const formatted: WebServiceFormData = {
             id: data.id,
             name: data.name.trim(),
@@ -74,14 +74,17 @@ export default function WebServiceForm(props: WebServiceFormProps) {
 
     async function getThumbnailPath(): Promise<string> {
         if (!file) {
-            const result = iconUrl ?? props.defaultWebService?.thumbnailPath ?? null;
-            if (!result) throw new Error("Undefined thumbnail");
+            const result = iconUrl ?? props.defaultWebService?.thumbnailPath;
+            if (!result) {
+                toast.error("Undefined thumbnail")
+                throw new Error("Undefined thumbnail");
+            }
             return result;
         }
 
         const formData = new FormData();
         formData.append("file", file);
-        const response = await uploadMedia(formData);
+        const response = await withToast(() => uploadMedia(formData), "Upload successfully!");
         return response.fullPath;
     }
 
