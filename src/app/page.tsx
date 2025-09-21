@@ -1,7 +1,7 @@
-import WebServiceDashboard from "@/app/components/WebServiceDashboard";
+import WebServiceViewer from "@/app/components/WebServiceViewer";
 import { getWebServices } from "@/app/lib/api/webservices";
 
 export default async function Home() {
   const webServices = await getWebServices();
-  return (<WebServiceDashboard webServices={webServices} />);
+  return (<WebServiceViewer webServices={webServices} />);
 }

@@ -5,9 +5,9 @@ const database = new Database("./src/app/data/database.sqlite", { verbose: conso
 database.prepare(`
     CREATE TABLE IF NOT EXISTS webservices (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        url TEXT NOT NULL,
-        image_path TEXT NOT NULL
+        name VARCHAR(32) NOT NULL,
+        url VARCHAR(128) NOT NULL,
+        thumbnailPath VARCHAR(64) NOT NULL
     )
 `).run();
 
