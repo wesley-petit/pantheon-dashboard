@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { WebService, WebServiceFormData } from "@/app/dto/webservice";
+import FilterableIconList, { ImageFormat } from "./FilterableIconList";
 import { uploadMedia } from "@/app/lib/api/medias";
 import "@/app/styles/file-upload.css";
 
@@ -21,6 +22,7 @@ type WebServiceFormProps = {
 
 export default function WebServiceForm(props: WebServiceFormProps) {
     const [file, setFile] = useState<File | null>(null);
+    const [iconUrl, setIconUrl] = useState<string | null>(null);
     const [preview, setPreview] = useState<string | null>(props.defaultWebService?.thumbnailPath ?? null);
 
     const { register, handleSubmit, formState: { errors } } = useForm<RawFormData>({
@@ -51,11 +53,29 @@ export default function WebServiceForm(props: WebServiceFormProps) {
         const selectedFile = e.target.files[0];
         setPreview(URL.createObjectURL(selectedFile));
         setFile(selectedFile);
+        setIconUrl(null);
     };
+
+    const handleIconSelect = (url: string) => {
+        // Reset choices when we select the same icon a second time.
+        const result = iconUrl === url ? null : url;
+        setIconUrl(result);
+        setFile(null);
+        setPreview(result);
+    }
+
+    function hasValidContent(files: FileList | null): boolean {
+        return (
+            // Required if no default or uploaded files are provided
+            props.defaultWebService?.thumbnailPath != null
+            || iconUrl != null
+            || (files != null && files.length > 0)
+        );
+    }
 
     async function getThumbnailPath(): Promise<string | null> {
         if (!file)
-            return props.defaultWebService?.thumbnailPath ?? null;
+            return iconUrl ?? props.defaultWebService?.thumbnailPath ?? null;
 
         const formData = new FormData();
         formData.append("file", file);
@@ -102,9 +122,11 @@ export default function WebServiceForm(props: WebServiceFormProps) {
                 <div className="text-red-500">{errors.url.message}</div>
             )}
 
+            <FilterableIconList imageFormat={ImageFormat.SVG} maxElements={18} onSelect={handleIconSelect} />
+
             <div className="file-upload mt-4">
                 {preview && (
-                    <Image src={preview} alt="Thumbnail preview" width={96} height={96} className="block mx-auto my-4" />
+                    <Image src={preview} alt="Thumbnail preview" width={64} height={64} className="block mx-auto my-4 object-contain" />
                 )}
                 <h3 className="font-bold uppercase">Upload</h3>
                 <input
@@ -112,12 +134,10 @@ export default function WebServiceForm(props: WebServiceFormProps) {
                     {...register("thumbnail", {
                         validate: {
                             required: (files: FileList | null) =>
-                                // Required if no default or uploaded files are provided
-                                props.defaultWebService?.thumbnailPath != null
-                                || (files && 0 < files.length)
+                                hasValidContent(files)
                                 || "A thumbnail image is required",
                             fileType: (files: FileList | null) =>
-                                props.defaultWebService?.thumbnailPath != null
+                                hasValidContent(files)
                                 || (files && files[0]?.type.startsWith("image/"))
                                 || "Only image files are allowed"
                         }

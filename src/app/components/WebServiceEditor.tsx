@@ -18,6 +18,7 @@ export default function WebServiceEditor(props: WebServiceEditorProps) {
     const [modalState, setModalState] = useState<boolean>(false);
     const [webServices, setWebServices] = useState<WebService[]>(props.webServices);
     const [editWebServices, setEditWebServices] = useState<WebService | null>(null);
+
     const router = useRouter();
 
     function showForm(service: WebService | null) {
@@ -60,7 +61,7 @@ export default function WebServiceEditor(props: WebServiceEditorProps) {
                 bEditorMode={true}
             />
 
-            <main className="h-full ml-16">
+            <main className="h-full ml-16 mr-4">
                 <span className="flex flex-row items-center m-4">
                     <h2 className="font-bold uppercase">WebService Editor</h2>
                     <button onClick={() => showForm(null)} className="cursor-pointer mx-2"><AddIcon /></button>

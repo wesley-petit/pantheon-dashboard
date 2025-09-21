@@ -35,6 +35,7 @@ export default function NavBar(props: NavBarProps) {
 
             {props.webServices.map((service) => (
                 <NavButton
+                    key={`${service.name} nav`}
                     label={service.name}
                     ariaLabel={`Switch to ${service.name}`}
                     bFullWidth={bFullWidth}
@@ -44,7 +45,7 @@ export default function NavBar(props: NavBarProps) {
                         setFullWidth(false);
                     }}
                 >
-                    <Image src={service.thumbnailPath} alt={`${service.name} Logo`} width={32} height={32} />
+                    <Image src={service.thumbnailPath} alt={`${service.name} Logo`} width={32} height={32} className="object-contain" />
                 </NavButton>
             ))}
 

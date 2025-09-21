@@ -1,5 +1,4 @@
 import { UploadMediaResponse } from "@/app/dto/upload";
-import { da } from "zod/locales";
 
 const API_BASE = process.env.API_BASE ?? "http://localhost:3000";
 

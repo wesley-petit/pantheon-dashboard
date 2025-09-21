@@ -7,7 +7,7 @@ database.prepare(`
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name VARCHAR(32) NOT NULL,
         url VARCHAR(128) NOT NULL,
-        thumbnailPath VARCHAR(64) NOT NULL
+        thumbnailPath VARCHAR(128) NOT NULL
     )
 `).run();
 

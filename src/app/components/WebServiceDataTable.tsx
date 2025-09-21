@@ -15,7 +15,7 @@ export default function WebServiceDataTable(props: WebServiceDataTableProps) {
     const nameTemplate = (service: WebService) => {
         return (
             <span className="flex flex-row my-2">
-                <Image src={service.thumbnailPath} alt={`${service.name} Logo`} width={32} height={32} />
+                <Image src={service.thumbnailPath} alt={`${service.name} Logo`} width={32} height={32} className="object-contain" />
                 <p className="content-center ml-4">{service.name}</p>
             </span>
         );

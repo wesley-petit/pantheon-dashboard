@@ -17,7 +17,7 @@ export type WebServiceFormData = {
 export const AddWebServiceRequestSchema = z.object({
     name: z.string().min(1).max(32),
     url: z.string().url().min(1).max(128),
-    thumbnailPath: z.string().min(1).max(64),
+    thumbnailPath: z.string().min(1).max(128),
 });
 export type AddWebServiceRequest = z.infer<typeof AddWebServiceRequestSchema>;
 export type AddWebServiceResponse = {
@@ -28,7 +28,7 @@ export const UpdateWebServiceRequestSchema = z.object({
     id: z.number(),
     name: z.string().min(1).max(32),
     url: z.string().url().min(1).max(128),
-    thumbnailPath: z.string().min(1).max(64),
+    thumbnailPath: z.string().min(1).max(128),
 });
 export type UpdateWebServiceRequest = z.infer<typeof UpdateWebServiceRequestSchema>;
 
