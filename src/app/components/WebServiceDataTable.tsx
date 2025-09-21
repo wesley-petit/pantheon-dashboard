@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from "react";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import Image from "next/image";
@@ -9,6 +12,7 @@ type WebServiceDataTableProps = {
     webServices: WebService[];
     onEdit: (service: WebService) => void;
     OnDelete: (service: WebService) => void;
+    onSortArray: (services: WebService[]) => void;
 };
 
 export default function WebServiceDataTable(props: WebServiceDataTableProps) {
@@ -32,9 +36,13 @@ export default function WebServiceDataTable(props: WebServiceDataTableProps) {
         );
     };
 
+    function reorderByIndex(services: WebService[]): WebService[] {
+        return services.map((ws, index) => ({ ...ws, sortOrder: index + 1, }));
+    }
 
     return (
-        <DataTable value={props.webServices} className="rounded-xl p-4 bg-white/10">
+        <DataTable value={props.webServices} reorderableColumns reorderableRows onRowReorder={(e) => props.onSortArray(reorderByIndex(e.value))} className="rounded-xl p-4 bg-white/10" >
+            <Column rowReorder style={{ width: '2rem' }} />
             <Column header="NAME" body={nameTemplate}></Column>
             <Column header="URL" body={urlTemplate}></Column>
             <Column header="ACTIONS" body={buttonsTemplate}></Column>

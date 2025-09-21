@@ -23,8 +23,8 @@ export const GET = withErrorHandling(async () => {
 // POST new service
 export const POST = withErrorHandling(async (req: Request) => {
     const request = AddWebServiceRequestSchema.parse(await req.json());
-    const stmt = database.prepare("INSERT INTO webservices (name, url, thumbnailPath) VALUES (?, ?, ?)");
-    const result = stmt.run(request.name, request.url, request.thumbnailPath);
+    const stmt = database.prepare("INSERT INTO webservices (name, url, thumbnailPath, sortOrder) VALUES (?, ?, ?, ?)");
+    const result = stmt.run(request.name, request.url, request.thumbnailPath, request.sortOrder);
     const response: AddWebServiceResponse = {
         id: Number(result.lastInsertRowid)
     };
@@ -38,8 +38,8 @@ export const PATCH = withErrorHandling(async (req: Request) => {
     if (!webService) {
         return NextResponse.json({ error: "Web service not found" }, { status: 404 });
     }
-    const stmt = database.prepare("UPDATE webservices SET name = ?, url = ?, thumbnailPath = ? WHERE id = ?");
-    stmt.run(request.name, request.url, request.thumbnailPath, request.id);
+    const stmt = database.prepare("UPDATE webservices SET name = ?, url = ?, thumbnailPath = ?, sortOrder= ? WHERE id = ?");
+    stmt.run(request.name, request.url, request.thumbnailPath, request.sortOrder, request.id);
     // Clean-up old file
     if (request.thumbnailPath !== webService.thumbnailPath) {
         await deleteFile(webService.thumbnailPath);
@@ -61,7 +61,7 @@ export const DELETE = withErrorHandling(async (req: Request) => {
 });
 
 async function getOrDefaultWebService(id: number): Promise<WebService | null> {
-    const stmt = await database.prepare("SELECT * FROM webservices WHERE id = ?");
+    const stmt = await database.prepare("SELECT * FROM webservices WHERE id = ? ORDER by sortOrder");
     const row = stmt.get(id);
     return row ? row as WebService : null;
 }

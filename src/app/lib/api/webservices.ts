@@ -1,5 +1,11 @@
 import { WebService } from "@/app/dto/webservice";
-import { AddWebServiceRequest, AddWebServiceResponse, UpdateWebServiceRequest, DeleteWebServiceRequest } from "@/app/dto/webservice";
+import {
+    AddWebServiceRequest,
+    AddWebServiceResponse,
+    UpdateWebServiceRequest,
+    DeleteWebServiceRequest,
+    SortWebServicesRequest
+} from "@/app/dto/webservice";
 
 const API_BASE = process.env.API_BASE ?? "http://localhost:3000";
 
@@ -63,6 +69,18 @@ export async function deleteWebService(id: number) {
     }
 }
 
-export function sortWebServices(webServices: WebService[]): WebService[] {
-    return webServices.sort((a, b) => a.id - b.id);
+export async function sortWebServices(request: SortWebServicesRequest) {
+    const res = await fetch(`${API_BASE}/api/webservices/sort`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(request),
+    });
+
+    if (!res.ok) {
+        throw new Error("Failed to sort web services");
+    }
+}
+
+export function sortWebServicesLocally(services: WebService[]): WebService[] {
+    return services.sort((a, b) => a.sortOrder - b.sortOrder);
 }

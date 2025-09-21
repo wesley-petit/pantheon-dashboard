@@ -1,7 +1,7 @@
 import WebServiceViewer from "@/app/components/WebServiceViewer";
-import { getWebServices, sortWebServices } from "@/app/lib/api/webservices";
+import { getWebServices, sortWebServicesLocally } from "@/app/lib/api/webservices";
 
 export default async function Home() {
-  const webServices = sortWebServices(await getWebServices());
+  const webServices = sortWebServicesLocally(await getWebServices());
   return (<WebServiceViewer webServices={webServices} />);
 }

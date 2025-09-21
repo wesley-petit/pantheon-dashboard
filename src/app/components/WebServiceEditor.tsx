@@ -9,7 +9,7 @@ import WebServiceDataTable from "@/app/components/WebServiceDataTable";
 import NavBar from "@/app/components/NavBar";
 import SpringModal from '@/app/components/SpringModal';
 import { WebService, WebServiceFormData } from "@/app/dto/webservice";
-import { addWebService, updateWebService, deleteWebService, sortWebServices } from "@/app/lib/api/webservices";
+import { addWebService, updateWebService, deleteWebService, sortWebServices, sortWebServicesLocally } from "@/app/lib/api/webservices";
 import { withToast } from "@/app/lib/withToast";
 
 type WebServiceEditorProps = {
@@ -18,7 +18,7 @@ type WebServiceEditorProps = {
 
 export default function WebServiceEditor(props: WebServiceEditorProps) {
     const [modalState, setModalState] = useState<boolean>(false);
-    const [webServices, setWebServices] = useState<WebService[]>(sortWebServices(props.webServices));
+    const [webServices, setWebServices] = useState<WebService[]>(props.webServices);
     const [editWebServices, setEditWebServices] = useState<WebService | null>(null);
 
     const router = useRouter();
@@ -33,16 +33,18 @@ export default function WebServiceEditor(props: WebServiceEditorProps) {
             const newItem: WebService = {
                 ...params,
                 id: params.id,
+                sortOrder: webServices.find((ws) => ws.id === params.id)?.sortOrder ?? 0,
             }
             await updateWebService({ ...newItem });
-            const sortedWebServices = sortWebServices([...webServices.filter(ws => ws.id !== newItem.id), newItem]);
-            setWebServices(sortedWebServices);
+            const temp = [...webServices.filter(ws => ws.id !== newItem.id), newItem];
+            setWebServices(sortWebServicesLocally(temp));
         }
         else {
-            const response = await addWebService({ ...params });
+            const response = await addWebService({ ...params, sortOrder: webServices.length });
             const newItem: WebService = {
                 ...params,
                 id: response.id,
+                sortOrder: webServices.length
             }
             setWebServices(prev => [...prev, newItem]);
         }
@@ -57,6 +59,11 @@ export default function WebServiceEditor(props: WebServiceEditorProps) {
     async function onDeleteWebService(service: WebService) {
         await withToast(() => deleteWebService(service.id), "Delete successfully!");
         setWebServices(prev => prev.filter(ws => ws.id !== service.id));
+    }
+
+    async function onSortArray(services: WebService[]) {
+        await withToast(() => sortWebServices(services), "Sort successfully!");
+        setWebServices(services);
     }
 
     return (
@@ -76,7 +83,7 @@ export default function WebServiceEditor(props: WebServiceEditorProps) {
                 <SpringModal open={modalState} onClose={() => setModalState(false)} className="rounded-xl w-lg shadow-2xl p-8 bg-white/10">
                     <WebServiceForm defaultWebService={editWebServices} onSubmit={onSubmit} />
                 </SpringModal>
-                <WebServiceDataTable webServices={webServices} onEdit={showForm} OnDelete={onDeleteWebService} />
+                <WebServiceDataTable webServices={webServices} onEdit={showForm} OnDelete={onDeleteWebService} onSortArray={onSortArray} />
             </main>
             <Toaster />
         </div>
