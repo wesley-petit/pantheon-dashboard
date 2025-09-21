@@ -9,7 +9,7 @@ import WebServiceDataTable from "@/app/components/WebServiceDataTable";
 import NavBar from "@/app/components/NavBar";
 import SpringModal from '@/app/components/SpringModal';
 import { WebService, WebServiceFormData } from "@/app/dto/webservice";
-import { addWebService, updateWebService, deleteWebService } from "@/app/lib/api/webservices";
+import { addWebService, updateWebService, deleteWebService, sortWebServices } from "@/app/lib/api/webservices";
 import { withToast } from "@/app/lib/withToast";
 
 type WebServiceEditorProps = {
@@ -18,7 +18,7 @@ type WebServiceEditorProps = {
 
 export default function WebServiceEditor(props: WebServiceEditorProps) {
     const [modalState, setModalState] = useState<boolean>(false);
-    const [webServices, setWebServices] = useState<WebService[]>(props.webServices);
+    const [webServices, setWebServices] = useState<WebService[]>(sortWebServices(props.webServices));
     const [editWebServices, setEditWebServices] = useState<WebService | null>(null);
 
     const router = useRouter();
@@ -35,7 +35,8 @@ export default function WebServiceEditor(props: WebServiceEditorProps) {
                 id: params.id,
             }
             await updateWebService({ ...newItem });
-            setWebServices(prev => [...prev.filter(ws => ws.id !== newItem.id), newItem]);
+            const sortedWebServices = sortWebServices([...webServices.filter(ws => ws.id !== newItem.id), newItem]);
+            setWebServices(sortedWebServices);
         }
         else {
             const response = await addWebService({ ...params });

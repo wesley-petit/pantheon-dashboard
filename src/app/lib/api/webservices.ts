@@ -62,3 +62,7 @@ export async function deleteWebService(id: number) {
         throw new Error("Failed to delete web service");
     }
 }
+
+export function sortWebServices(webServices: WebService[]): WebService[] {
+    return webServices.sort((a, b) => a.id - b.id);
+}
