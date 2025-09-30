@@ -20,15 +20,15 @@ export default function Iframe({ url }: { url: string }) {
     }
 
     return (
-        <div className="h-full w-full">
-            <div className="text-right m-4">
-                <button className='cursor-pointer mr-4' onClick={reloadIframe}><CachedIcon /></button>
-                <a href={url} target='blank'><ArrowOutwardIcon /></a>
+        <div className="h-full w-full overflow-hidden">
+            <div className="text-right m-2">
+                <button className='custom-button' onClick={reloadIframe}><CachedIcon /></button>
+                <a className='custom-button' href={url} target='blank'><ArrowOutwardIcon /></a>
             </div>
             <iframe
                 allow="clipboard-read; clipboard-write; camera; microphone; speaker-selection; encrypted-media; web-share; display-capture; autoplay; fullscreen; picture-in-picture"
                 sandbox="allow-presentation allow-forms allow-same-origin allow-orientation-lock allow-pointer-lock allow-scripts allow-popups allow-popups-to-escape-sandbox allow-modals allow-top-navigation allow-top-navigation-by-user-activation allow-downloads"
-                className="h-full w-full"
+                className="h-full w-full rounded-xl"
                 ref={iframeRef}
                 src={url}>
             </iframe>

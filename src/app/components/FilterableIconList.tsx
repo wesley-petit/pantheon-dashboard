@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, ChangeEvent } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 export enum ImageFormat {
@@ -98,7 +98,6 @@ export default function FilterableIconList(props: FilterableIconListProps) {
                         type="button"
                         key={`${item.filename} button`}
                         onClick={() => props.onSelect(getFullUrl(item))}
-                        className="cursor-pointer"
                     >
                         <Image
                             key={`${item.filename} image`}

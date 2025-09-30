@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from "react";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import Image from "next/image";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { WebService } from "@/app/dto/webservice";
+import "@/app/styles/webservice-editor.css";
 
 type WebServiceDataTableProps = {
     webServices: WebService[];
@@ -20,7 +20,7 @@ export default function WebServiceDataTable(props: WebServiceDataTableProps) {
         return (
             <span className="flex flex-row my-2">
                 <Image src={service.thumbnailPath} alt={`${service.name} Logo`} width={32} height={32} className="object-contain" />
-                <p className="content-center ml-4">{service.name}</p>
+                <p className="content-center mx-2">{service.name}</p>
             </span>
         );
     };
@@ -30,8 +30,8 @@ export default function WebServiceDataTable(props: WebServiceDataTableProps) {
     const buttonsTemplate = (service: WebService) => {
         return (
             <span>
-                <button onClick={() => props.onEdit(service)} className="cursor-pointer px-2"><EditIcon /></button>
-                <button onClick={() => props.OnDelete(service)} className="cursor-pointer px-2"><DeleteIcon /></button>
+                <button onClick={() => props.onEdit(service)} className='custom-button'><EditIcon /></button>
+                <button onClick={() => props.OnDelete(service)} className='custom-button'><DeleteIcon /></button>
             </span>
         );
     };
@@ -41,11 +41,11 @@ export default function WebServiceDataTable(props: WebServiceDataTableProps) {
     }
 
     return (
-        <DataTable value={props.webServices} reorderableColumns reorderableRows onRowReorder={(e) => props.onSortArray(reorderByIndex(e.value))} className="rounded-xl p-4 bg-white/10" >
-            <Column rowReorder style={{ width: '2rem' }} />
-            <Column header="NAME" body={nameTemplate}></Column>
-            <Column header="URL" body={urlTemplate}></Column>
-            <Column header="ACTIONS" body={buttonsTemplate}></Column>
+        <DataTable value={props.webServices} reorderableRows onRowReorder={(e) => props.onSortArray(reorderByIndex(e.value))}>
+            <Column rowReorder className='drag-button' style={{ width: '2rem' }} />
+            <Column header="NAME" body={nameTemplate} />
+            <Column header="URL" body={urlTemplate} />
+            <Column header="ACTIONS" body={buttonsTemplate} />
         </DataTable>
     );
 }

@@ -16,7 +16,7 @@ export default function NavButton(props: NavButtonProps) {
             title={props.label}
             aria-label={props.ariaLabel}
             onClick={props.onClick}
-            className={`flex mx-auto p-2 rounded cursor-pointer center
+            className={`flex
         ${props.bFullWidth ? "min-w-60" : ""}
         ${props.bSelected ? "selected" : ""}`}
         >

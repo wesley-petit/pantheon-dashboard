@@ -155,7 +155,7 @@ export default function WebServiceForm(props: WebServiceFormProps) {
             )}
 
             <input type="hidden" {...register("id")} />
-            <button type="submit" className="cursor-pointer mt-4 px-4 py-2 bg-blue-500 text-white rounded">Save</button>
+            <button type="submit" className="custom-button mt-4 px-4 py-2 bg-blue-500 text-white rounded">Save</button>
             <Toaster />
         </form>
     );
