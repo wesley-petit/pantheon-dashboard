@@ -25,6 +25,8 @@ export type AddWebServiceRequest = z.infer<typeof AddWebServiceRequestSchema>;
 export type AddWebServiceResponse = {
     id: number;
 }
+export const AddWebServiceArraySchema = z.array(AddWebServiceRequestSchema);
+export type AddWebServiceArrayRequest = z.infer<typeof AddWebServiceArraySchema>;
 
 export const UpdateWebServiceRequestSchema = z.object({
     id: z.number(),
