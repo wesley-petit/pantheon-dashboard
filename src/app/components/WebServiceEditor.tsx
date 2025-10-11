@@ -75,12 +75,16 @@ export default function WebServiceEditor(props: WebServiceEditorProps) {
                 bEditorMode={true}
             />
 
-            <main className="mx-16 mb-12">
+            <main className="pb-12">
                 <span className="flex flex-row items-center m-4">
                     <h2 className="font-bold uppercase">WebService Editor</h2>
                     <button onClick={() => showForm(null)} className='custom-button'><AddIcon /></button>
                 </span>
-                <SpringModal open={modalState} onClose={() => setModalState(false)} className="rounded-xl w-lg shadow-2xl p-8 background">
+                <SpringModal
+                    open={modalState}
+                    onClose={() => setModalState(false)}
+                    className="rounded-xl w-md max-w-full shadow-2xl p-6 background"
+                >
                     <WebServiceForm defaultWebService={editWebServices} onSubmit={onSubmit} />
                 </SpringModal>
                 <WebServiceDataTable webServices={webServices} onEdit={showForm} OnDelete={onDeleteWebService} onSortArray={onSortArray} />

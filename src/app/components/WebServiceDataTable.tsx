@@ -25,7 +25,7 @@ export default function WebServiceDataTable(props: WebServiceDataTableProps) {
         );
     };
     const urlTemplate = (service: WebService) => {
-        return <a href={service.url} target="_blank" className="content-center underline">{service.url}</a>;
+        return <a href={service.url} target="_blank" className="content-center underline hidden lg:block">{service.url}</a>;
     };
     const buttonsTemplate = (service: WebService) => {
         return (
@@ -44,7 +44,7 @@ export default function WebServiceDataTable(props: WebServiceDataTableProps) {
         <DataTable value={props.webServices} reorderableRows onRowReorder={(e) => props.onSortArray(reorderByIndex(e.value))}>
             <Column rowReorder className='drag-button' style={{ width: '2rem' }} />
             <Column header="NAME" body={nameTemplate} />
-            <Column header="URL" body={urlTemplate} />
+            <Column header="URL" body={urlTemplate} headerClassName='url' className='url' />
             <Column header="ACTIONS" body={buttonsTemplate} />
         </DataTable>
     );

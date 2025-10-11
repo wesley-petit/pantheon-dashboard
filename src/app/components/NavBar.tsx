@@ -28,46 +28,47 @@ export default function NavBar(props: NavBarProps) {
     }
 
     return (
-        <nav className="flex flex-1 flex-col fixed overflow-y-scroll h-full top-0 gap-2 p-2 z-10" style={{ scrollbarWidth: "none" }}>
-            <div>
-                <Hamburger toggled={bFullWidth} size={20} toggle={setFullWidth} />
-            </div>
-
-            {props.webServices.map((service) => (
+        <header className="fixed top-0 right-0 z-1 mr-2" style={{ scrollbarWidth: "none" }}>
+            <nav className={`${bFullWidth ? "open" : ""} overflow-y-scroll flex flex-col fixed top-0 h-full w-50 pt-8 background rounded-tl-xl rounded-bl-xl`}>
                 <NavButton
-                    key={`service ${service.id}`}
-                    label={service.name}
-                    ariaLabel={`Switch to ${service.name}`}
-                    bFullWidth={bFullWidth}
-                    bSelected={isSelected(props.current, service)}
-                    onClick={() => {
-                        props.onSelect(service);
-                        setFullWidth(false);
-                    }}
+                    label="Home"
+                    ariaLabel="Home Page"
+                    bSelected={(!props.bEditorMode && props.current == null)}
+                    onClick={() => router.push('/')}
                 >
-                    <Image src={service.thumbnailPath} alt={`${service.name} Logo`} width={32} height={32} className="object-contain" />
+                    <HomeIcon width={32} height={32} className="object-contain" />
                 </NavButton>
-            ))}
 
-            <NavButton
-                label="Home"
-                ariaLabel="Home Page"
-                bFullWidth={bFullWidth}
-                bSelected={(!props.bEditorMode && props.current == null)}
-                onClick={() => router.push('/')}
-            >
-                <HomeIcon width={32} height={32} />
-            </NavButton>
+                <NavButton
+                    label="Editor"
+                    ariaLabel="Editor Page"
+                    bSelected={props.bEditorMode}
+                    onClick={() => router.push('/editor')}
+                >
+                    <SettingsIcon width={32} height={32} className="object-contain" />
+                </NavButton>
 
-            <NavButton
-                label="Editor"
-                ariaLabel="Editor Page"
-                bFullWidth={bFullWidth}
-                bSelected={props.bEditorMode}
-                onClick={() => router.push('/editor')}
-            >
-                <SettingsIcon width={32} height={32} />
-            </NavButton>
-        </nav>
+                {props.webServices.map((service) => (
+                    <NavButton
+                        key={`service ${service.id}`}
+                        label={service.name}
+                        ariaLabel={`Switch to ${service.name}`}
+                        bSelected={isSelected(props.current, service)}
+                        onClick={() => {
+                            props.onSelect(service);
+                            setFullWidth(false);
+                        }}
+                    >
+                        <Image src={service.thumbnailPath} alt={`${service.name} Logo`} width={30} height={30} className="object-contain" />
+                    </NavButton>
+                ))}
+            </nav>
+
+            <Hamburger
+                toggled={bFullWidth}
+                size={20}
+                toggle={setFullWidth}
+            />
+        </header>
     );
 }

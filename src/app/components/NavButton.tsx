@@ -4,7 +4,6 @@ import React from "react";
 type NavButtonProps = {
     label: string;
     ariaLabel: string;
-    bFullWidth: boolean;
     bSelected: boolean;
     children: React.ReactElement<any>;
     onClick: () => void;
@@ -16,14 +15,10 @@ export default function NavButton(props: NavButtonProps) {
             title={props.label}
             aria-label={props.ariaLabel}
             onClick={props.onClick}
-            className={`flex
-        ${props.bFullWidth ? "min-w-60" : ""}
-        ${props.bSelected ? "selected" : ""}`}
+            className={`flex ${props.bSelected ? "selected" : ""}`}
         >
             {props.children}
-            {props.bFullWidth && (
-                <p className="content-center px-4">{props.label}</p>
-            )}
+            <p className="content-center pl-5">{props.label}</p>
         </button>
     );
 };

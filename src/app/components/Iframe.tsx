@@ -21,7 +21,7 @@ export default function Iframe({ url }: { url: string }) {
 
     return (
         <div className="h-full w-full overflow-hidden">
-            <div className="text-right m-2">
+            <div className="text-left m-2">
                 <button className='custom-button' onClick={reloadIframe}><CachedIcon /></button>
                 <a className='custom-button' href={url} target='blank'><ArrowOutwardIcon /></a>
             </div>

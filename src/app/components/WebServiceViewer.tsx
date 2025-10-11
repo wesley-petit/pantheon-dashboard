@@ -36,7 +36,7 @@ export default function WebServiceDashboard({ webServices }: WebServiceViewer) {
         onSelect={setCurrentWebService}
         bEditorMode={false}
       />
-      <main className="h-full ml-16">
+      <main className="h-full">
         {currentWebService != null && (<Iframe url={currentWebService.url}></Iframe>)}
       </main>
     </div>
