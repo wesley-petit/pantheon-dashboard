@@ -22,8 +22,8 @@ export default function Iframe({ url }: { url: string }) {
     return (
         <div className="h-full w-full overflow-hidden">
             <div className="text-left m-2">
-                <button className='custom-button' onClick={reloadIframe}><CachedIcon /></button>
-                <a className='custom-button' href={url} target='blank'><ArrowOutwardIcon /></a>
+                <button className='custom-button' onClick={reloadIframe} title="Reload the integration"><CachedIcon /></button>
+                <a className='custom-button' href={url} target='blank' title="Open in another tab"><ArrowOutwardIcon /></a>
             </div>
             <iframe
                 allow="clipboard-read; clipboard-write; camera; microphone; speaker-selection; encrypted-media; web-share; display-capture; autoplay; fullscreen; picture-in-picture"

@@ -142,9 +142,9 @@ export default function WebServiceEditor(props: WebServiceEditorProps) {
             <main className="pb-12">
                 <span className="flex flex-row items-center m-4">
                     <h2 className="font-bold uppercase">WebService Editor</h2>
-                    <button onClick={() => showForm(null)} className='custom-button'><AddIcon /></button>
-                    <button onClick={exportToJson} className='custom-button'><FileDownloadIcon /></button>
-                    <button onClick={() => fileInputRef.current?.click()} className='custom-button'><FileUploadIcon /></button>
+                    <button onClick={() => showForm(null)} className='custom-button' title="Add a new webservice"><AddIcon /></button>
+                    <button onClick={exportToJson} className='custom-button' title="Export a backup"><FileDownloadIcon /></button>
+                    <button onClick={() => fileInputRef.current?.click()} className='custom-button' title="Import a backup"><FileUploadIcon /></button>
                 </span>
                 <input
                     type="file"

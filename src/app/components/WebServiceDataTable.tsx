@@ -30,8 +30,8 @@ export default function WebServiceDataTable(props: WebServiceDataTableProps) {
     const buttonsTemplate = (service: WebService) => {
         return (
             <span>
-                <button onClick={() => props.onEdit(service)} className='custom-button'><EditIcon /></button>
-                <button onClick={() => props.OnDelete(service)} className='custom-button'><DeleteIcon /></button>
+                <button onClick={() => props.onEdit(service)} className='custom-button' title="Update a webservice"><EditIcon /></button>
+                <button onClick={() => props.OnDelete(service)} className='custom-button' title="Delete a webservice"><DeleteIcon /></button>
             </span>
         );
     };
