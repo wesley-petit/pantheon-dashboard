@@ -5,7 +5,7 @@ type NavButtonProps = {
     label: string;
     ariaLabel: string;
     bSelected: boolean;
-    children: React.ReactElement<any>;
+    children: React.ReactNode;
     onClick: () => void;
 };
 

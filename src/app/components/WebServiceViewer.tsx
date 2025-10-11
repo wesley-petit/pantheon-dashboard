@@ -11,11 +11,11 @@ type WebServiceViewer = {
 };
 
 export default function WebServiceDashboard({ webServices }: WebServiceViewer) {
-  const [currentWebService, setCurrentWebService] = useState<WebService | null>(getDefaultWebService(webServices));
+  const searchParams = useSearchParams();
+  const [currentWebService, setCurrentWebService] = useState<WebService | null>(getDefaultWebService(webServices, searchParams));
 
-  function getDefaultWebService(webServices: WebService[]) {
+  function getDefaultWebService(webServices: WebService[], searchParams: URLSearchParams) {
     // Query parameters set by the WebServiceEditor
-    const searchParams = useSearchParams();
     const params = searchParams.get("id");
     if (params) {
       const id = parseInt(params, 10);

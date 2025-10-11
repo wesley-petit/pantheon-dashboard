@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
-type Handler = (req: Request, ctx?: any) => Promise<NextResponse>;
+type Handler = (req: Request) => Promise<NextResponse>;
 
 export function withErrorHandling(handler: Handler): Handler {
-    return async (req, ctx) => {
+    return async (req) => {
         try {
-            return await handler(req, ctx);
+            return await handler(req);
         } catch (ex) {
             if (ex instanceof ZodError) {
                 const errors = JSON.parse(ex.message);

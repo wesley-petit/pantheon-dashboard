@@ -12,7 +12,7 @@ export default function Iframe({ url }: { url: string }) {
             try {
                 // Works only for same-origin URLs
                 iframeRef.current.contentWindow?.location.reload();
-            } catch (e) {
+            } catch {
                 // Fallback: reset src (works for cross-origin)
                 iframeRef.current.src = url;
             }

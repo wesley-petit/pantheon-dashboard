@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 
 export enum ImageFormat {
@@ -27,6 +27,33 @@ export default function FilterableIconList(props: FilterableIconListProps) {
     // Rely on homarr-labs official icons : https://github.com/homarr-labs/dashboard-icons/tree/main
     const dashboardIconsCdn = "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons";
 
+    const updateFilteredIcons = useCallback((filter: string | null) => {
+        const result = getComputedFilteredIcons(filter).slice(0, props.maxElements);
+        setFilteredIcons(result);
+    }, [props.maxElements]);
+
+    const fetchDashboardIconFilenames = useCallback(async (): Promise<string[]> => {
+        const res = await fetch(`${dashboardIconsCdn}/tree.json`, {
+            method: "GET",
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+            console.log(data);
+            throw new Error("Failed to fetch dashboard icons");
+        }
+
+        if (!(props.imageFormat in data)) {
+            throw new Error(`Unsupported format ${props.imageFormat}`);
+        }
+
+        return data[props.imageFormat];
+    }, [props.imageFormat, dashboardIconsCdn]);
+
+    function getDisplayName(filename: string): string {
+        return filename.replace("-", " ").split(".")[0]
+    }
+
     useEffect(() => {
         fetchDashboardIconFilenames()
             .then(response => {
@@ -38,33 +65,7 @@ export default function FilterableIconList(props: FilterableIconListProps) {
                 updateFilteredIcons(searchItem);
             })
             .catch(err => console.log(err));
-    }, []);
-
-    async function fetchDashboardIconFilenames(): Promise<string[]> {
-        const res = await fetch(`${dashboardIconsCdn}/tree.json`, {
-            method: "GET"
-        });
-
-        const data = await res.json();
-        if (!res.ok) {
-            console.log(data);
-            throw new Error("Failed to fetch dashboard filteredIcons");
-        }
-
-        if (!(props.imageFormat in data)) {
-            throw new Error(`Unsupported format ${props.imageFormat}`);
-        }
-        return data[props.imageFormat];
-    }
-
-    function getDisplayName(filename: string): string {
-        return filename.replace("-", " ").split(".")[0]
-    }
-
-    function updateFilteredIcons(filter: string | null) {
-        const result = getComputedFilteredIcons(filter).slice(0, props.maxElements);
-        setFilteredIcons(result);
-    }
+    }, [fetchDashboardIconFilenames, updateFilteredIcons, searchItem]);
 
     function getComputedFilteredIcons(filter: string | null): Icon[] {
         setSearchItem(filter)

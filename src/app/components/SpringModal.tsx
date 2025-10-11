@@ -11,7 +11,6 @@ interface FadeProps {
     onClick?: any;
     onEnter?: (node: HTMLElement, isAppearing: boolean) => void;
     onExited?: (node: HTMLElement, isAppearing: boolean) => void;
-    ownerState?: any;
 }
 
 const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(props, ref) {
@@ -21,7 +20,6 @@ const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(props, re
         onClick,
         onEnter,
         onExited,
-        ownerState,
         ...other
     } = props;
     const style = useSpring({
