@@ -15,8 +15,7 @@ const UPLOAD_DIR = path.resolve(process.cwd(), "public");
 
 // GET all services
 export const GET = withErrorHandling(async () => {
-    const stmt = database.prepare("SELECT * FROM webservices");
-    const rows = stmt.all();
+    const rows = database.prepare("SELECT * FROM webservices").all();
     return NextResponse.json(rows);
 });
 
