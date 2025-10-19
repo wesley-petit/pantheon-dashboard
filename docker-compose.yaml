@@ -1,6 +1,7 @@
 services:
     pantheon-dashboard:
         build: .
+        container_name: pantheon-dashboard
         ports:
             - "3000:3000"
         environment:
