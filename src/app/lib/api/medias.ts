@@ -1,9 +1,9 @@
 import { UploadMediaResponse } from "@/app/dto/upload";
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:3000";
+import { getApiBase } from "@/app/lib/api/api-base";
 
 export async function uploadMedia(formData: FormData): Promise<UploadMediaResponse> {
-    const response = await fetch(`${API_BASE}/api/upload`, {
+    const apiBase = getApiBase();
+    const response = await fetch(`${apiBase}/api/upload`, {
         method: "PUT",
         body: formData,
     });

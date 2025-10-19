@@ -1,4 +1,5 @@
 import { WebService } from "@/app/dto/webservice";
+import { getApiBase } from "@/app/lib/api/api-base";
 import {
     AddWebServiceRequest,
     AddWebServiceResponse,
@@ -7,22 +8,10 @@ import {
     SortWebServicesRequest
 } from "@/app/dto/webservice";
 
-const LOCAL_API_BASE = "http://localhost:3000";
-const DEFAULT_API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? LOCAL_API_BASE;
-
-function getApiBase() {
-    // SERVER-SIDE
-    if (typeof window === "undefined") {
-        return LOCAL_API_BASE;
-    }
-
-    // CLIENT-SIDE
-    return DEFAULT_API_BASE;
-}
 
 export async function getWebServices(): Promise<WebService[]> {
-    const API_BASE = getApiBase();
-    const res = await fetch(`${API_BASE}/api/webservices`, {
+    const apiBase = getApiBase();
+    const res = await fetch(`${apiBase}/api/webservices`, {
         method: "GET",
         cache: "no-store",
     });
@@ -35,8 +24,8 @@ export async function getWebServices(): Promise<WebService[]> {
 }
 
 export async function addWebService(request: AddWebServiceRequest): Promise<AddWebServiceResponse> {
-    const API_BASE = getApiBase();
-    const res = await fetch(`${API_BASE}/api/webservices`, {
+    const apiBase = getApiBase();
+    const res = await fetch(`${apiBase}/api/webservices`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(request),
@@ -52,8 +41,8 @@ export async function addWebService(request: AddWebServiceRequest): Promise<AddW
 }
 
 export async function updateWebService(request: UpdateWebServiceRequest) {
-    const API_BASE = getApiBase();
-    const res = await fetch(`${API_BASE}/api/webservices`, {
+    const apiBase = getApiBase();
+    const res = await fetch(`${apiBase}/api/webservices`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(request),
@@ -67,11 +56,11 @@ export async function updateWebService(request: UpdateWebServiceRequest) {
 }
 
 export async function deleteWebService(id: number) {
-    const API_BASE = getApiBase();
+    const apiBase = getApiBase();
     const request: DeleteWebServiceRequest = {
         id: id
     };
-    const res = await fetch(`${API_BASE}/api/webservices`, {
+    const res = await fetch(`${apiBase}/api/webservices`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(request),
@@ -85,8 +74,8 @@ export async function deleteWebService(id: number) {
 }
 
 export async function sortWebServices(request: SortWebServicesRequest) {
-    const API_BASE = getApiBase();
-    const res = await fetch(`${API_BASE}/api/webservices/sort`, {
+    const apiBase = getApiBase();
+    const res = await fetch(`${apiBase}/api/webservices/sort`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(request),

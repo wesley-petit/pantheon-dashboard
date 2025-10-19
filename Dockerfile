@@ -9,6 +9,11 @@ COPY . .
 RUN mkdir -p public/uploads
 RUN mkdir -p src/app/data
 
+# Add environment variables before building the application.
+# Client components are compiled at build time, so they need these values
+# to correctly call the API in the browser.
+ENV NEXT_PUBLIC_API_BASE=${NEXT_PUBLIC_API_BASE}
+
 # Install dependencies and build
 RUN npm install
 RUN npm run build
