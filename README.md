@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pantheon Dashboard
 
-## Getting Started
+A simple React.js dashboard that organizes your web services in one place using iframes. Manage and access all your apps easily from a single interface.
 
-First, run the development server:
+- [Pantheon Dashboard](#pantheon-dashboard)
+  - [Features](#features)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Deployment](#deployment)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    - Add, edit, and delete web services
+    - Sort services to customize your dashboard
+    - View services embedded via iframe
+    - Backup your database for safety
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    - Node 20
+    - npm
 
-## Learn More
+## Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone the repository :
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```bash
+    git clone https://github.com/wesley-petit/pantheon-dashboard
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Change your directory :
 
-## Deploy on Vercel
+    ```bash
+    cd pantheon-dashboard/
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Install all dependencies :
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    ```bash
+    npm install
+    ```
+
+4. Run the application :
+
+    ```bash
+    npm run dev
+    ```
+
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Deployment
+
+1. Clone the repository :
+
+    ```bash
+    git clone https://github.com/wesley-petit/pantheon-dashboard
+    ```
+
+2. Change your directory :
+
+    ```bash
+    cd pantheon-dashboard/
+    ```
+
+3. Create an `.env` file with your configuration :
+
+    ```conf
+    NEXT_PUBLIC_API_BASE=<YOUR_URL>              # Base URL for API requests used by the Next.js app (e.g. http://localhost:3000)
+    ```
+
+4. Deploy your container :
+
+    ```bash
+    sudo docker-compose up -d
+    ```
+
+5. Launch your browser and open the app.

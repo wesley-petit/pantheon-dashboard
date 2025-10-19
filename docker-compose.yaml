@@ -4,7 +4,7 @@ services:
         ports:
             - "3000:3000"
         environment:
-            NEXT_PUBLIC_API_BASE: "http://localhost:3000"
+            NEXT_PUBLIC_API_BASE: ${NEXT_PUBLIC_API_BASE}
         volumes:
             - uploads:/pantheon-dashboard/public/uploads
             - database:/pantheon-dashboard/src/app/data
