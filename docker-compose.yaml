@@ -1,11 +1,13 @@
 services:
     pantheon-dashboard:
         build: .
+        image: pantheon-dashboard
         container_name: pantheon-dashboard
         ports:
             - "3000:3000"
         environment:
             NEXT_PUBLIC_API_BASE: ${NEXT_PUBLIC_API_BASE}
+            NODE_ENV: production
         # networks:
         #     - webservices
         volumes:

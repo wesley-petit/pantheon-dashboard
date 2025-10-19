@@ -14,7 +14,6 @@ RUN npm install
 RUN npm run build
 
 EXPOSE 3000
-ENV NODE_ENV=production
 
 VOLUME ["/pantheon-dashboard/public", "/pantheon-dashboard/src/app/data"]
 
