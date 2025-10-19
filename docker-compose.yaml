@@ -25,9 +25,10 @@ services:
         labels:
             - deunhealth.restart.on.unhealthy=true
 
-volumes:
-    uploads:
-    database:
 # networks:
 #     webservices:
 #         external: true
+
+volumes:
+    uploads:
+    database:
