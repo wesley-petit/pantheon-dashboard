@@ -5,10 +5,29 @@ services:
             - "3000:3000"
         environment:
             NEXT_PUBLIC_API_BASE: ${NEXT_PUBLIC_API_BASE}
+        # networks:
+        #     - webservices
         volumes:
             - uploads:/pantheon-dashboard/public/uploads
             - database:/pantheon-dashboard/src/app/data
+        healthcheck:
+            test:
+                [
+                    "CMD",
+                    "wget",
+                    "-q",
+                    "--spider",
+                    "http://localhost:3000/api/health",
+                ]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+        labels:
+            - deunhealth.restart.on.unhealthy=true
 
 volumes:
     uploads:
     database:
+# networks:
+#     webservices:
+#         external: true
