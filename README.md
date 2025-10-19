@@ -17,7 +17,7 @@ A simple React.js dashboard that organizes your web services in one place using 
 
 ## Prerequisites
 
-    - Node 20
+    - Node 24
     - npm
 
 ## Installation
