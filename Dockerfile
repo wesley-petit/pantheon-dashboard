@@ -15,7 +15,7 @@ RUN mkdir -p src/app/data
 ENV NEXT_PUBLIC_API_BASE=${NEXT_PUBLIC_API_BASE}
 
 # Install dependencies and build
-RUN npm install
+RUN npm install --omit=dev
 RUN npm run build
 
 EXPOSE 3000
