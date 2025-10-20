@@ -2,7 +2,9 @@
 
 A simple React.js dashboard that organizes your web services in one place using iframes. Manage and access all your apps easily from a single interface.
 
-  ![Demo Gif](demo.gif)
+<p align="center">
+    <img src="./demo.gif" alt="App demo" width="600">
+</p>
 
 - [Pantheon Dashboard](#pantheon-dashboard)
   - [Features](#features)
