@@ -10,7 +10,7 @@ type WebServiceViewer = {
   webServices: WebService[];
 };
 
-export default function WebServiceDashboard({ webServices }: WebServiceViewer) {
+export default function WebServiceViewer({ webServices }: WebServiceViewer) {
   const searchParams = useSearchParams();
   const [currentWebService, setCurrentWebService] = useState<WebService | null>(getDefaultWebService(webServices, searchParams));
 

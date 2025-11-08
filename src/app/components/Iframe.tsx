@@ -7,15 +7,18 @@ import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 export default function Iframe({ url }: { url: string }) {
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
+    function isUrlValid() {
+        return url.trim().length !== 0;
+    }
+
     function reloadIframe() {
-        if (iframeRef.current) {
-            try {
-                // Works only for same-origin URLs
-                iframeRef.current.contentWindow?.location.reload();
-            } catch {
-                // Fallback: reset src (works for cross-origin)
-                iframeRef.current.src = url;
-            }
+        if (!isUrlValid() || !iframeRef.current) return;
+        try {
+            // Works only for same-origin URLs
+            iframeRef.current.contentWindow?.location?.reload();
+        } catch {
+            // Fallback: reset src (works for cross-origin)
+            iframeRef.current.src = url;
         }
     }
 
@@ -23,15 +26,20 @@ export default function Iframe({ url }: { url: string }) {
         <div className="h-full w-full overflow-hidden">
             <div className="text-left m-2">
                 <button className='custom-button' onClick={reloadIframe} title="Reload the integration"><CachedIcon /></button>
-                <a className='custom-button' href={url} target='blank' title="Open in another tab"><ArrowOutwardIcon /></a>
+                {isUrlValid() &&
+                    <a className='custom-button' href={url} target='blank' title="Open in another tab"><ArrowOutwardIcon /></a>
+                }
             </div>
-            <iframe
-                allow="clipboard-read; clipboard-write; camera; microphone; speaker-selection; encrypted-media; web-share; display-capture; autoplay; fullscreen; picture-in-picture"
-                sandbox="allow-presentation allow-forms allow-same-origin allow-orientation-lock allow-pointer-lock allow-scripts allow-popups allow-popups-to-escape-sandbox allow-modals allow-top-navigation allow-top-navigation-by-user-activation allow-downloads"
-                className="h-full w-full rounded-xl"
-                ref={iframeRef}
-                src={url}>
-            </iframe>
+            {isUrlValid() &&
+                (<iframe
+                    allow="clipboard-read; clipboard-write; camera; microphone; speaker-selection; encrypted-media; web-share; display-capture; autoplay; fullscreen; picture-in-picture"
+                    sandbox="allow-presentation allow-forms allow-same-origin allow-orientation-lock allow-pointer-lock allow-scripts allow-popups allow-popups-to-escape-sandbox allow-modals allow-top-navigation allow-top-navigation-by-user-activation allow-downloads"
+                    className="h-full w-full rounded-xl"
+                    title="main-iframe"
+                    ref={iframeRef}
+                    src={url}>
+                </iframe>)
+            }
         </div>
     )
 }
